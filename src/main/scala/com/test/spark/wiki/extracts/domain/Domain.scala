@@ -11,6 +11,7 @@ case class Team(codeAgence: String, code: String, override val name: String) ext
 case class Agency(code: String, codeRegion: String, override val name: String) extends Edf
 case class Region(code: String, name: String) extends Edf
 case class Installation( codeEquipe: String, code: Int, cofelyVision: String, libelle: String, name: String) extends Edf
+case class JointInstallEquipe(codeAgence: String, code: String, override val name: String, codeEquipe: String, code: Int, cofelyVision: String, libelle: String, name: String) extends Edf
 
 object DomainEncoders {
   implicit val encdTeam = Encoders.product[Team]

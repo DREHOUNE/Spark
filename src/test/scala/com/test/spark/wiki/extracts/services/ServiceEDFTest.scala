@@ -88,4 +88,24 @@ class ServiceEDFTest extends FlatSpec {
 
   }
 
+  "get join installation and equipe" should "ok" in {
+
+    //Given
+    val inputfileEquipe = "src/test/resources/installations.json"
+    val inputfileInstallation = "src/test/resources/equipes.json"
+    val installationDS = ServiceEDF.filterDataSet(inputfileInstallation, "INSTALLATION", "NUMERO INSTALLATION")
+    val equipeDS = ServiceEDF.filterDataSet(inputfileEquipe, "TEAM", "NOM EQUIPE")
+
+    val expected =
+
+    //When
+
+    //Then
+
+
+
+
+  }
+
+
 }
