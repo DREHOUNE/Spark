@@ -1,40 +1,23 @@
 package com.test.spark.wiki.extracts.services
 
 import com.test.spark.wiki.extracts.domain.{Agency, DomainEncoders, Edf, Installation, Region, Team}
+import org.apache.spark
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.{Dataset, SparkSession}
+
+import scala.reflect.runtime.universe._
+import DomainEncoders._
 
 object ServiceEDF {
 
 
-  def filterDataSet(inputfile: String, aType: String, toExclude: String)(implicit spark: SparkSession): Dataset[_ <: Edf] = {
-    import DomainEncoders._
+  def filterDataSet[T: TypeTag](inputfile: String, toExclude: String)(implicit spark: SparkSession): Dataset[T] = {
 
-    aType match {
-      case "AGENCY" => {
-        spark.read.json(inputfile)
-          .map(_.copy(): Agency)
-          .filter(t => !toExclude.equals(t.name))
-      }
-      case "TEAM" => {
-        spark.read.json(inputfile)
-          .map(_.copy(): Team)
-          .filter(t => !toExclude.equals(t.name))
-      }
-      case "INSTALLATION" => {
-        spark.read.json(inputfile)
-          .map(_.copy(): Installation)
-          .filter(t => !toExclude.equals(t.name))
-      }
+    implicit val encoder = ExpressionEncoder[T]
 
-      case "REGION" => {
-        spark.read.json(inputfile)
-          .map(_.copy(): Region)
-          .filter(t => !toExclude.equals(t.name))
-      }
+    spark.read.json(inputfile).flatMap(_.copy(): Option[T])
 
   }
-
-}
 
 }
 
