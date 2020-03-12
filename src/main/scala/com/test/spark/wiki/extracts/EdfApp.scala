@@ -1,9 +1,13 @@
 package com.test.spark.wiki.extracts
 
-import com.test.spark.wiki.extracts.domain.{DomainEncoders, Installation, Team}
+import com.test.spark.wiki.extracts.domain.{Agency, DomainEncoders, Installation, Region, Team}
 import com.test.spark.wiki.extracts.services.ServiceEDF
 import org.apache.spark.sql.{Dataset, SparkSession}
 
+
+
+case class A(name:String)
+class B(name:String)
 object  EdfApp {
 
   def main(args: Array[String]): Unit = {
@@ -16,12 +20,9 @@ object  EdfApp {
       .config("spark.testing.memory", "2147480000")
       .getOrCreate()
 
-    val path = "src/main/resources/installations.json"
+    val a = A("sqsqs")
+    val b = new B("sqsqs")
 
-    val installationDS:Dataset[Installation] = ServiceEDF.filterDataSet[Installation](path,"NUMERO INSTALLATION")
-    installationDS.show()
-    val count = installationDS.count()
-    println(s"Count = ${count}")
 
   }
 
